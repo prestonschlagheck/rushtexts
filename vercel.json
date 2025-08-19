@@ -1,15 +1,4 @@
 {
-  "functions": {
-    "app/api/send/route.ts": {
-      "maxDuration": 300
-    },
-    "app/api/status/route.ts": {
-      "maxDuration": 30
-    },
-    "app/api/inbound/route.ts": {
-      "maxDuration": 30
-    }
-  },
   "headers": [
     {
       "source": "/api/(.*)",
