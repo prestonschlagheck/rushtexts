@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  to          String   // E.164 phone number
+  name        String?  // Optional name for personalization
+  body        String   // Message content
+  providerSid String?  // Provider's message ID (e.g., Twilio SID)
+  status      String   @default("queued") // queued, sent, delivered, failed
+  errorCode   String?  // Error code if failed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("messages")
+}
+
+model Inbound {
+  id        String   @id @default(cuid())
+  from      String   // E.164 phone number
+  body      String   // Message content
+  createdAt DateTime @default(now())
+
+  @@map("inbound_messages")
+}
+
+model OptOut {
+  id        String   @id @default(cuid())
+  phone     String   @unique // E.164 phone number
+  createdAt DateTime @default(now())
+
+  @@map("opt_outs")
+}
