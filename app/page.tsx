@@ -5,85 +5,71 @@ function ConfigStatus() {
   const hasTwilio = !!(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_MESSAGING_FROM)
   const hasWebhookSecret = !!process.env.WEBHOOK_SECRET
 
+  const allConfigured = hasDatabase && hasTwilio
+
   return (
-    <div className="bg-white rounded-lg shadow p-6 mb-8">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Configuration Status</h2>
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2">
-          <span className={hasDatabase ? 'text-green-600' : 'text-red-600'}>
-            {hasDatabase ? '✅' : '❌'}
+    <div className="linear-card p-4 mb-4">
+      <div className="text-center">
+        <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 ${
+          allConfigured ? 'bg-green-100' : 'bg-yellow-100'
+        }`}>
+          <span className="text-xl">
+            {allConfigured ? '✅' : '⚠️'}
           </span>
-          <span className="text-sm">Database Connection</span>
         </div>
-        <div className="flex items-center space-x-2">
-          <span className={hasTwilio ? 'text-green-600' : 'text-red-600'}>
-            {hasTwilio ? '✅' : '❌'}
-          </span>
-          <span className="text-sm">Twilio Configuration</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <span className={hasWebhookSecret ? 'text-green-600' : 'text-yellow-600'}>
-            {hasWebhookSecret ? '✅' : '⚠️'}
-          </span>
-          <span className="text-sm">Webhook Secret (for production)</span>
-        </div>
+        <h2 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          {allConfigured ? 'All Systems Ready' : 'Configuration Required'}
+        </h2>
+        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          {allConfigured 
+            ? 'Your SMS messaging system is fully configured and ready to use.'
+            : 'Some services need to be configured. See the README for setup instructions.'
+          }
+        </p>
       </div>
-      {(!hasDatabase || !hasTwilio) && (
-        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-          <p className="text-sm text-yellow-800">
-            Some services are not configured. See the README for setup instructions.
-          </p>
-        </div>
-      )}
     </div>
   )
 }
 
 export default function Home() {
   return (
-    <div className="px-4 py-6 sm:px-0">
+    <div className="pt-6">
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          SMS Broadcast App
-        </h1>
-        <p className="text-lg text-gray-600 mb-8">
-          Send bulk SMS messages with delivery tracking and opt-out management
-        </p>
+        <div className="mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+            SigEp Rush Messaging
+          </h1>
+          <p className="text-lg sm:text-xl mb-5" style={{ color: 'var(--text-secondary)' }}>
+            Connect with potential new members efficiently
+          </p>
+        </div>
         
-        <ConfigStatus />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-5 mb-6">
           <Link
             href="/send"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-6 rounded-lg text-center transition-colors"
+            className="action-button flex items-center space-x-3 px-6 py-3 text-base w-full sm:w-auto justify-center"
           >
-            <div className="text-xl mb-2">📤</div>
-            <div className="text-lg">Send Messages</div>
-            <div className="text-sm opacity-90">Upload numbers and send bulk SMS</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m22 2-7 20-4-9-9-4Z"/>
+              <path d="M22 2 11 13"/>
+            </svg>
+            <span>Send Messages</span>
           </Link>
           
           <Link
             href="/logs"
-            className="bg-green-600 hover:bg-green-700 text-white font-medium py-4 px-6 rounded-lg text-center transition-colors"
+            className="action-button flex items-center space-x-3 px-6 py-3 text-base w-full sm:w-auto justify-center"
           >
-            <div className="text-xl mb-2">📊</div>
-            <div className="text-lg">View Logs</div>
-            <div className="text-sm opacity-90">Track delivery status and replies</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 3v18h18"/>
+              <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+            </svg>
+            <span>View Logs</span>
           </Link>
         </div>
-
-        <div className="mt-12 text-left max-w-3xl mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Features</h2>
-          <ul className="space-y-2 text-gray-600">
-            <li>• Upload phone numbers via CSV or paste directly</li>
-            <li>• Personalize messages with names using {'{'}{'{'} name {'}'}{'}'} merge tags</li>
-            <li>• Real-time delivery status tracking</li>
-            <li>• Automatic opt-out handling (STOP keywords)</li>
-            <li>• Inbound message monitoring</li>
-            <li>• Export data to CSV</li>
-            <li>• Rate limiting to prevent spam</li>
-          </ul>
-        </div>
+        
+        <ConfigStatus />
       </div>
     </div>
   )

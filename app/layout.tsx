@@ -7,8 +7,8 @@ import { Navigation } from '@/components/Navigation'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SMS Broadcast App',
-  description: 'Send bulk SMS messages with delivery tracking',
+  title: 'SigEp Rush Messaging',
+  description: 'Streamlined communication platform for fraternity recruitment',
 }
 
 export default function RootLayout({
@@ -18,10 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="min-h-screen bg-gray-50">
+      <body className={inter.className} style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
+        <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--background)' }}>
           <Navigation />
-          <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <main className="flex-1 max-w-6xl mx-auto px-6">
             {children}
           </main>
         </div>

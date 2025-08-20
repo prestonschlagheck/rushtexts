@@ -7,64 +7,81 @@ export function Navigation() {
   const pathname = usePathname()
 
   const navigation = [
-    { name: 'Home', href: '/', icon: '🏠' },
-    { name: 'Send Messages', href: '/send', icon: '📤' },
-    { name: 'Logs', href: '/logs', icon: '📊' },
+    { name: 'Home', href: '/' },
+    { name: 'Send', href: '/send' },
+    { name: 'Logs', href: '/logs' },
   ]
 
   return (
-    <nav className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="flex items-center space-x-2">
-                <span className="text-2xl">📱</span>
-                <h1 className="text-xl font-bold text-gray-900">SMS Broadcast</h1>
-              </Link>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`${
-                      isActive
-                        ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    } whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-1`}
-                  >
-                    <span>{item.icon}</span>
-                    <span>{item.name}</span>
-                  </Link>
-                )
-              })}
-            </div>
+    <nav className="linear-nav sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Desktop Navigation */}
+        <div className="hidden sm:flex justify-between items-center h-20">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center space-x-4 group">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 group-hover:scale-105" style={{ backgroundColor: 'var(--primary)' }}>
+                {/* SigEp Logo - Simplified Greek Letters */}
+                <div className="text-white font-bold text-xl tracking-wide">ΣΦΕ</div>
+              </div>
+              <div className="flex flex-col">
+                <h1 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>SigEpRM</h1>
+                <p className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Rush Management</p>
+              </div>
+            </Link>
           </div>
           
-          {/* Mobile menu button */}
-          <div className="sm:hidden flex items-center">
-            <div className="flex space-x-1">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`${
-                      isActive
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'text-gray-500 hover:text-gray-700'
-                    } p-2 rounded-md text-sm font-medium`}
-                    title={item.name}
-                  >
-                    {item.icon}
-                  </Link>
-                )
-              })}
-            </div>
+          {/* Centered Navigation */}
+          <div className="flex items-center space-x-2">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`nav-link px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                    isActive ? 'nav-link-active' : ''
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
+          </div>
+          
+          <div className="w-48"></div> {/* Spacer for balance */}
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="sm:hidden">
+          {/* Top section with logo */}
+          <div className="flex justify-center items-center h-16 border-b" style={{ borderColor: 'var(--border)' }}>
+            <Link href="/" className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--primary)' }}>
+                <div className="text-white font-bold text-lg">ΣΦΕ</div>
+              </div>
+              <div className="flex flex-col">
+                <h1 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>SigEpRM</h1>
+                <p className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>Rush Management</p>
+              </div>
+            </Link>
+          </div>
+          
+          {/* Mobile navigation buttons */}
+          <div className="flex justify-center space-x-2 py-3">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`nav-link px-4 py-2 rounded-lg text-sm font-medium ${
+                    isActive ? 'nav-link-active' : ''
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </div>
